@@ -6,7 +6,7 @@ import { CreateConversationDto } from './dto/create-conversation.dto';
 import { UpdateConversationDto } from './dto/update-conversation.dto';
 import { ApiTags } from '@nestjs/swagger';
 @ApiTags('Convo')
-@Controller('api/v1/conversation')
+@Controller('v1/api/conversation')
 export class ConversationController {
   constructor(private readonly conversationService: ConversationService) { }
 
