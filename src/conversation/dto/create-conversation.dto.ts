@@ -1,7 +1,5 @@
-
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsString, IsNotEmpty } from 'class-validator';
-
 
 export class CreateConversationDto {
   @ApiProperty()
@@ -28,5 +26,4 @@ export class CreateConversationDto {
   @IsString()
   @IsNotEmpty()
   username: string;
-
 }

@@ -19,14 +19,10 @@ export class AuthService {
     private usersRepository: Repository<User>,
     private readonly jwtService: JwtService,
     private readonly usersService: UsersService,
-    private readonly configService: ConfigService,
-    // private readonly refreshTokenIdsStorage: RefreshTokenIdsStorage,
-  ) { }
+    private readonly configService: ConfigService, // private readonly refreshTokenIdsStorage: RefreshTokenIdsStorage,
+  ) {}
   async signIn(signInDto: SignInDto) {
-    const user = await this.validateUser(
-      signInDto.email,
-      signInDto.password,
-    );
+    const user = await this.validateUser(signInDto.email, signInDto.password);
     if (!user) {
       const user = await this.usersService.create(signInDto);
       const payload = { sub: user.id, username: user.email };
@@ -55,7 +51,6 @@ export class AuthService {
         refresh_token: refreshToken,
       };
     }
-
   }
 
   async validateUser(email: string, password: string): Promise<any> {

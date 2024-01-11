@@ -8,11 +8,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 @Injectable()
 export class UsersService {
-  constructor
-    (
-      @InjectRepository(User)
-      private readonly userRepository: Repository<User>
-    ) { }
+  constructor(
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
+  ) {}
   async create(signInDto: SignInDto): Promise<User> {
     const { username, password, email } = signInDto;
 

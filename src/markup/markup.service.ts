@@ -10,8 +10,7 @@ export class MarkupService {
   constructor(
     @InjectRepository(Markup)
     private readonly markupRepository: Repository<Markup>,
-
-  ) { }
+  ) {}
 
   async create(uid: number, createMarkupDto: CreateMarkupDto) {
     const markup = await this.markupRepository.create({
@@ -21,8 +20,6 @@ export class MarkupService {
 
     return this.markupRepository.save(markup);
   }
-
-
 
   async findMarkupsByUserId(uid: number): Promise<Markup[]> {
     const markups = await this.markupRepository.find({
@@ -45,7 +42,6 @@ export class MarkupService {
     return 0;
   }
 
-
   findOne(id: number) {
     return this.markupRepository.findOne({ where: { id } });
   }
@@ -56,6 +52,6 @@ export class MarkupService {
 
   async remove(id: number) {
     const res = await this.markupRepository.delete(id);
-    return res
+    return res;
   }
 }

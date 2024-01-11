@@ -1,5 +1,10 @@
-
-import { Entity, PrimaryGeneratedColumn, OneToMany, Column, CreateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  Column,
+  CreateDateColumn,
+} from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Markup } from '../../markup/entities/markup.entity';
 @Entity()
@@ -16,9 +21,8 @@ export class User {
   @Column()
   password: string;
 
-  @OneToMany(() => Markup, markup => markup.user)
+  @OneToMany(() => Markup, (markup) => markup.user)
   markups: Markup[];
-
 
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;

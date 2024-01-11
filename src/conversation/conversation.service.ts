@@ -13,10 +13,12 @@ export class ConversationService {
     private readonly convoRepository: Repository<Conversation>,
     @InjectRepository(Markup)
     private readonly markupRepository: Repository<Markup>,
-  ) { }
+  ) {}
 
-
-  async createConversation(createConversationDto: CreateConversationDto, markupId: number): Promise<Conversation> {
+  async createConversation(
+    createConversationDto: CreateConversationDto,
+    markupId: number,
+  ): Promise<Conversation> {
     const conversation = new Conversation();
     conversation.title = createConversationDto.title;
     conversation.status = createConversationDto.status;
@@ -25,7 +27,9 @@ export class ConversationService {
     conversation.username = createConversationDto.username;
 
     // Assuming you have a Markup entity with ID markupId in the database
-    const markup = await this.markupRepository.findOne({ where: { id: markupId } });
+    const markup = await this.markupRepository.findOne({
+      where: { id: markupId },
+    });
     if (!markup) {
       // Handle the case where the associated markup is not found
       throw new NotFoundException('Markup not found');
@@ -35,7 +39,6 @@ export class ConversationService {
 
     return await this.convoRepository.save(conversation);
   }
-
 
   async getConversationAndThreadsByMarkupId(markupId: number) {
     const markup = await this.markupRepository
@@ -71,13 +74,16 @@ export class ConversationService {
     return this.convoRepository.findOne({ where: { id } });
   }
 
-  async update(id: number, updateConversationDto: UpdateConversationDto): Promise<Conversation> {
+  async update(
+    id: number,
+    updateConversationDto: UpdateConversationDto,
+  ): Promise<Conversation> {
     await this.convoRepository.update(id, updateConversationDto);
     return this.convoRepository.findOne({ where: { id } });
   }
 
   async remove(id: number) {
     const res = await this.convoRepository.delete(id);
-    return res
+    return res;
   }
 }

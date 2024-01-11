@@ -8,6 +8,6 @@ import { Markup } from '../markup/entities/markup.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([Conversation, Markup])],
   controllers: [ConversationController],
-  providers: [ConversationService, MarkupService]
+  providers: [ConversationService, MarkupService],
 })
-export class ConversationModule { }
+export class ConversationModule {}

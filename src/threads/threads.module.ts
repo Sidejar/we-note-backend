@@ -10,6 +10,6 @@ import { Markup } from '../markup/entities/markup.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([Thread, Conversation, Markup])],
   controllers: [ThreadsController],
-  providers: [ThreadsService, MarkupService]
+  providers: [ThreadsService, MarkupService],
 })
-export class ThreadsModule { }
+export class ThreadsModule {}

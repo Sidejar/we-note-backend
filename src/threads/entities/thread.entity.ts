@@ -1,6 +1,11 @@
-
-
-import { Entity, PrimaryGeneratedColumn, ManyToOne, Column, CreateDateColumn, IsNull } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  Column,
+  CreateDateColumn,
+  IsNull,
+} from 'typeorm';
 import { Conversation } from '../../conversation/entities/conversation.entity';
 @Entity()
 export class Thread {
@@ -25,10 +30,9 @@ export class Thread {
   @Column()
   status: string;
 
-  @ManyToOne(() => Conversation, conversation => conversation.threads)
+  @ManyToOne(() => Conversation, (conversation) => conversation.threads)
   conversation: Conversation;
 
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
 }
-

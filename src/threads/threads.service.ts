@@ -10,8 +10,7 @@ export class ThreadsService {
   constructor(
     @InjectRepository(Thread)
     private readonly threadRepository: Repository<Thread>,
-
-  ) { }
+  ) {}
   create(cid: number, createThreadDto: CreateThreadDto) {
     const markup = this.threadRepository.create({
       ...createThreadDto,
@@ -42,6 +41,6 @@ export class ThreadsService {
 
   async remove(id: number) {
     const res = await this.threadRepository.delete(id);
-    return res
+    return res;
   }
 }

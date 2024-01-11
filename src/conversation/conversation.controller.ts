@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { NotFoundException } from '@nestjs/common';
 import { ConversationService } from './conversation.service';
 import { Conversation } from './entities/conversation.entity';
@@ -8,7 +16,7 @@ import { ApiTags } from '@nestjs/swagger';
 @ApiTags('Convo')
 @Controller('v1/api/conversation')
 export class ConversationController {
-  constructor(private readonly conversationService: ConversationService) { }
+  constructor(private readonly conversationService: ConversationService) {}
 
   @Post(':mid')
   async createConversation(
@@ -16,7 +24,10 @@ export class ConversationController {
     @Param('mid') mid: number,
   ) {
     try {
-      const conversation = await this.conversationService.createConversation(createConversationDto, mid);
+      const conversation = await this.conversationService.createConversation(
+        createConversationDto,
+        mid,
+      );
       return conversation;
     } catch (error) {
       if (error instanceof NotFoundException) {
@@ -28,11 +39,12 @@ export class ConversationController {
     }
   }
 
-
   @Get(':id')
   async findOneWithThreads(@Param('id') id: string) {
     try {
-      const conversation = await this.conversationService.findOneWithThreads(+id);
+      const conversation = await this.conversationService.findOneWithThreads(
+        +id,
+      );
       return conversation;
     } catch (error) {
       if (error instanceof NotFoundException) {
@@ -43,7 +55,10 @@ export class ConversationController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateConversationDto: UpdateConversationDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateConversationDto: UpdateConversationDto,
+  ) {
     return this.conversationService.update(+id, updateConversationDto);
   }
 

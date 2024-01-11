@@ -1,7 +1,5 @@
-
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsString, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
-
 
 export class CreateThreadDto {
   @ApiProperty()
@@ -33,5 +31,4 @@ export class CreateThreadDto {
   @IsString()
   @IsNotEmpty()
   status: string;
-
 }

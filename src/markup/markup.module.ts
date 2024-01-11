@@ -11,6 +11,6 @@ import { ThreadsService } from '../threads/threads.service';
 @Module({
   imports: [TypeOrmModule.forFeature([Markup, User, Conversation, Thread])],
   controllers: [MarkupController],
-  providers: [MarkupService, ConversationService, ThreadsService]
+  providers: [MarkupService, ConversationService, ThreadsService],
 })
-export class MarkupModule { }
+export class MarkupModule {}

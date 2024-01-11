@@ -1,7 +1,5 @@
-
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsOptional, IsString, IsNumber, IsEnum, IsUrl } from 'class-validator';
-
 
 export class CreateMarkupDto {
   @ApiPropertyOptional()
@@ -12,7 +10,6 @@ export class CreateMarkupDto {
   @ApiProperty()
   @IsString()
   url: string;
-
 
   // Add other properties if needed
 }

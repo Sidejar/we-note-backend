@@ -20,7 +20,7 @@ import { JwtRefreshTokenStrategy } from './strategy/jwt-refresh-token.strategy';
     TypeOrmModule.forFeature([User]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
-      secret: process.env.JWT_SECRET || 'secret'
+      secret: process.env.JWT_SECRET || 'secret',
     }),
   ],
   providers: [
@@ -34,4 +34,4 @@ import { JwtRefreshTokenStrategy } from './strategy/jwt-refresh-token.strategy';
   exports: [AuthService],
   controllers: [AuthController],
 })
-export class AuthModule { }
+export class AuthModule {}
