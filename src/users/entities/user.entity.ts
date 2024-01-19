@@ -5,7 +5,6 @@ import {
   Column,
   CreateDateColumn,
 } from 'typeorm';
-import * as bcrypt from 'bcrypt';
 import { Markup } from '../../markup/entities/markup.entity';
 @Entity()
 export class User {
@@ -13,21 +12,17 @@ export class User {
   id: number;
 
   @Column()
-  username: string;
+  googleId: number;
 
   @Column()
-  email: string; // Changed to string type
+  name: string;
 
   @Column()
-  password: string;
+  email: string;
 
   @OneToMany(() => Markup, (markup) => markup.user)
   markups: Markup[];
 
   @CreateDateColumn({ type: 'timestamp' })
-  created_at: Date;
-
-  async validatePassword(password: string): Promise<boolean> {
-    return bcrypt.compare(password, this.password);
-  }
+  createdAt: Date;
 }

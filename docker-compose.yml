@@ -1,18 +1,5 @@
 version: "3"
 services:
-  app:
-    build: .
-    ports:
-      - "3000:3000"
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
-    depends_on:
-      - postgres-db
-      - cache
-    env_file:
-      - .env
-
   postgres-db:
     image: postgres:latest
     environment:

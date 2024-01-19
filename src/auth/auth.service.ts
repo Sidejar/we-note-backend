@@ -1,65 +1,48 @@
-import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
-import { SignInDto } from './dto/sign-in.dto';
+import { Injectable } from '@nestjs/common';
+import { GoogleConnectDto } from './dto/sign-in.dto';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
-import { ConfigService } from '@nestjs/config';
 import { Repository } from 'typeorm';
 import { User } from '../users/entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-// import { RefreshTokenIdsStorage } from './refresh-token-ids-storage';
-import { TokenExpiredError } from 'jsonwebtoken';
-import { JwtRefreshTokenStrategy } from './strategy/jwt-refresh-token.strategy';
+import { google } from 'googleapis';
 
 @Injectable()
 export class AuthService {
-  private readonly logger = new Logger(JwtRefreshTokenStrategy.name);
-
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
     private readonly jwtService: JwtService,
     private readonly usersService: UsersService,
-    private readonly configService: ConfigService, // private readonly refreshTokenIdsStorage: RefreshTokenIdsStorage,
   ) {}
-  async signIn(signInDto: SignInDto) {
-    const user = await this.validateUser(signInDto.email, signInDto.password);
-    if (!user) {
-      const user = await this.usersService.create(signInDto);
-      const payload = { sub: user.id, username: user.email };
-      const accessToken = await this.jwtService.signAsync(payload);
-      const refreshToken = await this.jwtService.signAsync(payload);
 
-      // Store the refresh token in redis
-      // await this.refreshTokenIdsStorage.insert(user.id, refreshToken);
+  async googleSignIn(signInDto: GoogleConnectDto) {
+    const oauth2Client = new google.auth.OAuth2();
+    oauth2Client.setCredentials({ access_token: signInDto.token });
 
-      return {
-        ...user,
-        access_token: accessToken,
-        refresh_token: refreshToken,
-      };
-    } else {
-      const payload = { sub: user.id, username: user.email };
-      const accessToken = await this.jwtService.signAsync(payload);
-      const refreshToken = await this.jwtService.signAsync(payload);
+    const profile = google.people('v1');
+    const result = await profile.people.get({ resourceName: 'people/me' });
+    return result;
 
-      // Store the refresh token in redis
-      // await this.refreshTokenIdsStorage.insert(user.id, refreshToken);
+    // const user = await this.usersRepository.findBy({ googleId: 1 });
+    // if (!user) {
+    //   const user = await this.usersService.create(signInDto);
+    //   const payload = { sub: user.id, username: user.email };
+    //   const accessToken = await this.jwtService.signAsync(payload);
 
-      return {
-        ...user,
-        access_token: accessToken,
-        refresh_token: refreshToken,
-      };
-    }
-  }
+    //   return {
+    //     ...user,
+    //     access_token: accessToken,
+    //   };
+    // } else {
+    //   const payload = { sub: user.id, username: user.email };
+    //   const accessToken = await this.jwtService.signAsync(payload);
 
-  async validateUser(email: string, password: string): Promise<any> {
-    const user = await this.usersService.findByUsername(email);
-    if (user && (await user.validatePassword(password))) {
-      const { password, ...result } = user;
-      return result;
-    }
-    return null;
+    //   return {
+    //     ...user,
+    //     access_token: accessToken,
+    //   };
+    // }
   }
 
   // async refreshAccessToken(

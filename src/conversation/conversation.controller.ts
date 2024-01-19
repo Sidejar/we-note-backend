@@ -9,11 +9,10 @@ import {
 } from '@nestjs/common';
 import { NotFoundException } from '@nestjs/common';
 import { ConversationService } from './conversation.service';
-import { Conversation } from './entities/conversation.entity';
 import { CreateConversationDto } from './dto/create-conversation.dto';
 import { UpdateConversationDto } from './dto/update-conversation.dto';
 import { ApiTags } from '@nestjs/swagger';
-@ApiTags('Convo')
+@ApiTags('conversation')
 @Controller('v1/api/conversation')
 export class ConversationController {
   constructor(private readonly conversationService: ConversationService) {}

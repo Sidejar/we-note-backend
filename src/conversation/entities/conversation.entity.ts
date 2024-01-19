@@ -1,10 +1,8 @@
 import {
   Entity,
   PrimaryGeneratedColumn,
-  OneToOne,
   OneToMany,
   ManyToOne,
-  JoinColumn,
   Column,
   CreateDateColumn,
 } from 'typeorm';
