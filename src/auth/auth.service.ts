@@ -5,7 +5,7 @@ import { UsersService } from '../users/users.service';
 import { Repository } from 'typeorm';
 import { User } from '../users/entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { google } from 'googleapis';
+import { google, oauth2_v2 } from 'googleapis';
 
 @Injectable()
 export class AuthService {
@@ -19,30 +19,36 @@ export class AuthService {
   async googleSignIn(signInDto: GoogleConnectDto) {
     const oauth2Client = new google.auth.OAuth2();
     oauth2Client.setCredentials({ access_token: signInDto.token });
+    const oauth2 = google.oauth2({
+      auth: oauth2Client,
+      version: 'v2',
+    });
+    const response = await oauth2.userinfo.get();
+    const { data } = response;
 
-    const profile = google.people('v1');
-    const result = await profile.people.get({ resourceName: 'people/me' });
-    return result;
+    const user = await this.usersRepository.findOneBy({ email: data.email });
+    if (!user) {
+      const user = await this.usersService.create({
+        googleId: data.id,
+        name: data.name,
+        email: data.email,
+      });
+      const payload = { sub: user.id, username: user.email };
+      const accessToken = await this.jwtService.signAsync(payload);
 
-    // const user = await this.usersRepository.findBy({ googleId: 1 });
-    // if (!user) {
-    //   const user = await this.usersService.create(signInDto);
-    //   const payload = { sub: user.id, username: user.email };
-    //   const accessToken = await this.jwtService.signAsync(payload);
+      return {
+        ...user,
+        access_token: accessToken,
+      };
+    } else {
+      const payload = { sub: user.id, username: user.email };
+      const accessToken = await this.jwtService.signAsync(payload);
 
-    //   return {
-    //     ...user,
-    //     access_token: accessToken,
-    //   };
-    // } else {
-    //   const payload = { sub: user.id, username: user.email };
-    //   const accessToken = await this.jwtService.signAsync(payload);
-
-    //   return {
-    //     ...user,
-    //     access_token: accessToken,
-    //   };
-    // }
+      return {
+        ...user,
+        access_token: accessToken,
+      };
+    }
   }
 
   // async refreshAccessToken(
