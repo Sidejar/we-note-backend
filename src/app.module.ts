@@ -14,6 +14,8 @@ import { User } from './users/entities/user.entity';
 import { Markup } from './markup/entities/markup.entity';
 import { Conversation } from './conversation/entities/conversation.entity';
 import { Thread } from './threads/entities/thread.entity';
+import { UtilsModule } from './utils/utils.module';
+
 @Module({
   imports: [
     // ConfigurationModule,
@@ -34,6 +36,7 @@ import { Thread } from './threads/entities/thread.entity';
     ConversationModule,
     ThreadsModule,
     UsersModule,
+    UtilsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
