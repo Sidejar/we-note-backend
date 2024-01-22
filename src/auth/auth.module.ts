@@ -10,7 +10,6 @@ import { User } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
 import { ConfigModule } from '@nestjs/config';
 // import { RefreshTokenIdsStorage } from './refresh-token-ids-storage';
-import { LocalStrategy } from './strategy/local.strategy';
 import { JwtRefreshTokenStrategy } from './strategy/jwt-refresh-token.strategy';
 
 @Module({
@@ -28,7 +27,6 @@ import { JwtRefreshTokenStrategy } from './strategy/jwt-refresh-token.strategy';
     JwtStrategy,
     UsersService,
     // RefreshTokenIdsStorage,
-    LocalStrategy,
     JwtRefreshTokenStrategy,
   ],
   exports: [AuthService],

@@ -1,12 +1,33 @@
-import { Body, Controller } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  UploadedFile,
+  UseInterceptors,
+  Request,
+  Get,
+} from '@nestjs/common';
 import { NotesService } from './notes.service';
 import { CreateNoteDto } from './dto/create.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('notes')
 export class NotesController {
   constructor(private readonly service: NotesService) {}
 
-  public async create(@Body() body: CreateNoteDto) {
-    
+  @Post()
+  @UseInterceptors(FileInterceptor('image'))
+  public async create(
+    @Request() req,
+    @UploadedFile() file: Express.Multer.File,
+    @Body() body: CreateNoteDto,
+  ) {
+    // await this.service.create(file, body);
+    return req.user;
+  }
+
+  @Get()
+  public async get(@Request() req) {
+    return req.user;
   }
 }

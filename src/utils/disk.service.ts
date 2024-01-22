@@ -17,7 +17,7 @@ export class DiskService {
     this.storage = new AWS.S3({
       accessKeyId: this.configService.get('AWS_ACCESS_KEY_ID'),
       secretAccessKey: this.configService.get('AWS_SECRET_ACCESS_KEY'),
-      region: this.configService.get('AWS_SECRET_ACCESS_KEY'),
+      region: this.configService.get('AWS_DEFAULT_REGION'),
     });
   }
 
@@ -26,7 +26,7 @@ export class DiskService {
 
     const params: AWS.S3.PutObjectRequest = {
       Bucket: this.configService.get('AWS_BUCKET'),
-      Key: `shots/${nanoid()}.${Path.extname(originalname)}`,
+      Key: `shots/${nanoid()}${Path.extname(originalname)}`,
       Body: file.buffer,
       ContentType: mimetype,
       ContentDisposition: 'inline',

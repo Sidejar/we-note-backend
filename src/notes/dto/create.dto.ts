@@ -1,18 +1,22 @@
-import { IsArray, IsString, ValidateNested } from 'class-validator';
+import { Transform } from 'class-transformer';
+import { IsArray, IsString, IsUrl } from 'class-validator';
 
 export class CreateNoteDto {
   @IsString()
   readonly note: string;
 
+  @IsUrl()
+  readonly url: string;
+
   @IsArray()
-  @ValidateNested({ each: true })
+  @Transform(({ value }) => value.split(',').map(Number))
   readonly position: number[];
 
   @IsArray()
-  @ValidateNested({ each: true })
+  @Transform(({ value }) => value.split(',').map(Number))
   readonly dimensions: number[];
 
   @IsArray()
-  @ValidateNested({ each: true })
+  @Transform(({ value }) => value.split(',').map(Number))
   readonly scroll: number[];
 }

@@ -18,6 +18,8 @@ import { UtilsModule } from './utils/utils.module';
 import { NotesModule } from './notes/notes.module';
 import { Website } from './websites/entities/website.entity';
 import { Note } from './notes/entities/note.entity';
+import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -43,6 +45,12 @@ import { Note } from './notes/entities/note.entity';
     UtilsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+  ],
 })
 export class AppModule {}
