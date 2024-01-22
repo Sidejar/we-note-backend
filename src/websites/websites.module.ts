@@ -4,6 +4,6 @@ import { WebsitesController } from './websites.controller';
 
 @Module({
   providers: [WebsitesController, WebsitesService],
-  exports: [WebsitesController],
+  controllers: [WebsitesController],
 })
 export class WebsitesModule {}

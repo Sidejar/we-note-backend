@@ -6,20 +6,15 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
-import { MarkupModule } from './markup/markup.module';
-import { ConversationModule } from './conversation/conversation.module';
-import { ThreadsModule } from './threads/threads.module';
 import { UsersModule } from './users/users.module';
 import { User } from './users/entities/user.entity';
-import { Markup } from './markup/entities/markup.entity';
-import { Conversation } from './conversation/entities/conversation.entity';
-import { Thread } from './threads/entities/thread.entity';
 import { UtilsModule } from './utils/utils.module';
 import { NotesModule } from './notes/notes.module';
 import { Website } from './websites/entities/website.entity';
 import { Note } from './notes/entities/note.entity';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { APP_GUARD } from '@nestjs/core';
+import { Comment } from './comments/entities/comment.entity';
 
 @Module({
   imports: [
@@ -32,14 +27,11 @@ import { APP_GUARD } from '@nestjs/core';
       username: 'postgres',
       password: process.env.POSTGRES_PASSWORD || 'postgres',
       database: process.env.POSTGRES_DATABASE || 'postgres',
-      entities: [User, Website, Note],
+      entities: [User, Website, Note, Comment],
       synchronize: true,
     }),
     ConfigModule.forRoot(),
     AuthModule,
-    MarkupModule,
-    ConversationModule,
-    ThreadsModule,
     UsersModule,
     NotesModule,
     UtilsModule,
