@@ -21,7 +21,7 @@ export class Markup {
   @Column()
   url: string;
 
-  @ManyToOne(() => User, (user) => user.markups)
+  @ManyToOne(() => User)
   user: User;
 
   @OneToMany(() => Conversation, (conversation) => conversation.markup)

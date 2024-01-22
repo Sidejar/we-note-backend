@@ -5,7 +5,8 @@ import {
   Column,
   CreateDateColumn,
 } from 'typeorm';
-import { Markup } from '../../markup/entities/markup.entity';
+import { Note } from 'src/notes/entities/note.entity';
+
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
@@ -20,8 +21,8 @@ export class User {
   @Column()
   email: string;
 
-  @OneToMany(() => Markup, (markup) => markup.user)
-  markups: Markup[];
+  @OneToMany(() => Note, (note) => note.user)
+  notes: Note[];
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
