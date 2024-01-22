@@ -4,6 +4,7 @@ import { Note } from './entities/note.entity';
 import { Repository } from 'typeorm';
 import { DiskService } from 'src/utils/disk.service';
 import { CreateNoteDto } from './dto/create.dto';
+import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class NotesService {
@@ -13,7 +14,11 @@ export class NotesService {
     private readonly storage: DiskService,
   ) {}
 
-  public async create(file: Express.Multer.File, body: CreateNoteDto) {
+  public async create(
+    user: User,
+    body: CreateNoteDto,
+    file: Express.Multer.File,
+  ) {
     return this.storage.uploadFile(file);
   }
 }

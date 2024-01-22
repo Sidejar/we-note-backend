@@ -22,12 +22,7 @@ export class NotesController {
     @UploadedFile() file: Express.Multer.File,
     @Body() body: CreateNoteDto,
   ) {
-    // await this.service.create(file, body);
-    return req.user;
+    return this.service.create(req.user, body, file);
   }
 
-  @Get()
-  public async get(@Request() req) {
-    return req.user;
-  }
 }
