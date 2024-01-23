@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { DiskService } from 'src/utils/disk.service';
 import { CreateNoteDto } from './dto/create.dto';
 import { User } from 'src/users/entities/user.entity';
+import { WebsitesService } from 'src/websites/websites.service';
 
 @Injectable()
 export class NotesService {
@@ -12,6 +13,7 @@ export class NotesService {
     @InjectRepository(Note)
     private readonly repository: Repository<Note>,
     private readonly storage: DiskService,
+    private readonly websiteService: WebsitesService,
   ) {}
 
   public async create(
@@ -19,6 +21,26 @@ export class NotesService {
     body: CreateNoteDto,
     file: Express.Multer.File,
   ) {
-    return this.storage.uploadFile(file);
+    const screenshot = await this.storage.uploadFile(file);
+
+    const website = await this.websiteService.findOrCreate(body.url);
+
+    return this.repository.save({
+      url: body.url,
+      note: body.note,
+      meta: body.meta,
+      screenshot,
+      user,
+      website,
+    });
+  }
+
+  public async getById(id: string) {
+    const model = await this.repository.findOne({
+      where: { id },
+      relations: { user: true },
+    });
+    model.screenshot = this.storage.getFileUrl(model.screenshot);
+    return model;
   }
 }

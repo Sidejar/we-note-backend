@@ -2,7 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as AWS from 'aws-sdk';
 import * as Path from 'path';
+import * as cfsign from 'aws-cloudfront-sign';
 import { customAlphabet } from 'nanoid';
+import { DateTime } from 'luxon';
 
 const nanoid = customAlphabet(
   '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
@@ -41,5 +43,19 @@ export class DiskService {
     return null;
   }
 
-  public async getFileUrl(reference: string) {}
+  public getFileUrl(reference: string) {
+    const signingParams = {
+      keypairId: this.configService.get('CLOUDFRONT_KEY_PAIR_ID'),
+      privateKeyPath: Path.join(
+        __dirname,
+        this.configService.get('CLOUDFRONT_PRIVATE_KEY_PATH'),
+      ),
+      expireTime: DateTime.now().plus({ hours: 24 }),
+    };
+
+    return cfsign.getSignedUrl(
+      `${this.configService.get('CLOUDFRONT_HOST')}/${reference}`,
+      signingParams,
+    );
+  }
 }

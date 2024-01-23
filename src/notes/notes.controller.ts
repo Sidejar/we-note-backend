@@ -6,6 +6,7 @@ import {
   UseInterceptors,
   Request,
   Get,
+  Param,
 } from '@nestjs/common';
 import { NotesService } from './notes.service';
 import { CreateNoteDto } from './dto/create.dto';
@@ -17,12 +18,17 @@ export class NotesController {
 
   @Post()
   @UseInterceptors(FileInterceptor('image'))
-  public async create(
+  public create(
     @Request() req,
     @UploadedFile() file: Express.Multer.File,
     @Body() body: CreateNoteDto,
   ) {
     return this.service.create(req.user, body, file);
+  }
+
+  @Get('/:id')
+  public async getById(@Param('id') id: string) {
+    return this.service.getById(id);
   }
 
 }

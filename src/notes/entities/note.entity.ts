@@ -11,8 +11,8 @@ import { Website } from 'src/websites/entities/website.entity';
 
 @Entity('notes')
 export class Note {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   url: string;
@@ -23,7 +23,7 @@ export class Note {
   @Column({ type: 'text' })
   screenshot: string;
 
-  @Column({ type: 'int8' })
+  @Column({ type: 'int8', default: 0 })
   status: number;
 
   @Column({ type: 'jsonb' })

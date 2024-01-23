@@ -18,7 +18,6 @@ import { Comment } from './comments/entities/comment.entity';
 
 @Module({
   imports: [
-    // ConfigurationModule,
     ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
     TypeOrmModule.forRoot({
       type: 'postgres',
