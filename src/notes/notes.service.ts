@@ -36,10 +36,13 @@ export class NotesService {
   }
 
   public async getById(id: string) {
-    const model = await this.repository.findOne({
-      where: { id },
-      relations: { user: true },
-    });
+    const model = await this.repository
+      .createQueryBuilder('notes')
+      .leftJoinAndSelect('notes.user', 'user')
+      .loadRelationCountAndMap('notes.comments', 'notes.comments')
+      .where('notes.id = :id', { id })
+      .getOne();
+
     model.screenshot = this.storage.getFileUrl(model.screenshot);
     return model;
   }

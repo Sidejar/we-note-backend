@@ -30,5 +30,4 @@ export class NotesController {
   public async getById(@Param('id') id: string) {
     return this.service.getById(id);
   }
-
 }
