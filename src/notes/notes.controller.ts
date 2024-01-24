@@ -11,10 +11,15 @@ import {
 import { NotesService } from './notes.service';
 import { CreateNoteDto } from './dto/create.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { CommentsService } from 'src/comments/comments.service';
+import { CreateCommentDto } from 'src/comments/dto/create.dto';
 
 @Controller('notes')
 export class NotesController {
-  constructor(private readonly service: NotesService) {}
+  constructor(
+    private readonly service: NotesService,
+    private readonly commentService: CommentsService,
+  ) {}
 
   @Post()
   @UseInterceptors(FileInterceptor('image'))
@@ -29,5 +34,21 @@ export class NotesController {
   @Get('/:id')
   public async getById(@Param('id') id: string) {
     return this.service.getById(id);
+  }
+
+  @Post('/:id/comments')
+  public async postComment(
+    @Request() req,
+    @Param('id') id: string,
+    @Body() body: CreateCommentDto,
+  ) {
+    const note = await this.getById(id);
+    return this.commentService.create(req.user, note, body);
+  }
+
+  @Get('/:id/comments')
+  public async getComments(@Param('id') id: string) {
+    const note = await this.getById(id);
+    return this.commentService.getAllByNote(note);
   }
 }

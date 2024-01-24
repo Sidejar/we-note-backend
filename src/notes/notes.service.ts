@@ -6,6 +6,7 @@ import { DiskService } from 'src/utils/disk.service';
 import { CreateNoteDto } from './dto/create.dto';
 import { User } from 'src/users/entities/user.entity';
 import { WebsitesService } from 'src/websites/websites.service';
+import { CommentsService } from 'src/comments/comments.service';
 
 @Injectable()
 export class NotesService {
@@ -14,6 +15,7 @@ export class NotesService {
     private readonly repository: Repository<Note>,
     private readonly storage: DiskService,
     private readonly websiteService: WebsitesService,
+    private readonly commentService: CommentsService,
   ) {}
 
   public async create(

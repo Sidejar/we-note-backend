@@ -5,9 +5,15 @@ import { Note } from './entities/note.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UtilsModule } from 'src/utils/utils.module';
 import { WebsitesModule } from 'src/websites/websites.module';
+import { CommentsModule } from 'src/comments/comments.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Note]), UtilsModule, WebsitesModule],
+  imports: [
+    TypeOrmModule.forFeature([Note]),
+    UtilsModule,
+    WebsitesModule,
+    CommentsModule,
+  ],
   providers: [NotesController, NotesService],
   controllers: [NotesController],
 })
