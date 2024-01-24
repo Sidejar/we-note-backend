@@ -28,6 +28,7 @@ import { Comment } from './comments/entities/comment.entity';
       database: process.env.POSTGRES_DATABASE || 'postgres',
       entities: [User, Website, Note, Comment],
       synchronize: true,
+      logging: true,
     }),
     ConfigModule.forRoot(),
     AuthModule,

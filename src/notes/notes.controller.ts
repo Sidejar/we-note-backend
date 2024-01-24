@@ -21,6 +21,11 @@ export class NotesController {
     private readonly commentService: CommentsService,
   ) {}
 
+  @Get('/summary')
+  public async getSummary(@Request() req) {
+    return this.service.getSummary(req.user);
+  }
+
   @Post()
   @UseInterceptors(FileInterceptor('image'))
   public create(

@@ -18,6 +18,16 @@ export class NotesService {
     private readonly commentService: CommentsService,
   ) {}
 
+  public async getSummary(user: User) {
+    return this.repository
+      .createQueryBuilder('notes')
+      .select(['count(notes.id) AS count', 'MAX(website.name) as name'])
+      .leftJoin('notes.website', 'website')
+      .groupBy('notes.websiteId')
+      .where('notes.userId = :userId', { userId: user.id })
+      .getRawMany();
+  }
+
   public async create(
     user: User,
     body: CreateNoteDto,
