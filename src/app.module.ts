@@ -23,7 +23,7 @@ import { Comment } from './comments/entities/comment.entity';
       type: 'postgres',
       url: process.env.DATABASE_URL,
       entities: [User, Website, Note, Comment],
-      // synchronize: true,
+      synchronize: true,
       logging: true,
     }),
     ConfigModule.forRoot(),
