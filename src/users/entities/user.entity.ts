@@ -24,6 +24,6 @@ export class User {
   @OneToMany(() => Note, (note) => note.user)
   notes: Note[];
 
-  @CreateDateColumn({ type: 'timestamp' })
+  @CreateDateColumn({ type: 'timestamp with time zone' })
   createdAt: Date;
 }
