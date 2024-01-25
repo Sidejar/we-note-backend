@@ -9,7 +9,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
 import { ConfigModule } from '@nestjs/config';
-// import { RefreshTokenIdsStorage } from './refresh-token-ids-storage';
 import { JwtRefreshTokenStrategy } from './strategy/jwt-refresh-token.strategy';
 
 @Module({
@@ -22,13 +21,7 @@ import { JwtRefreshTokenStrategy } from './strategy/jwt-refresh-token.strategy';
       secret: process.env.JWT_SECRET || 'secret',
     }),
   ],
-  providers: [
-    AuthService,
-    JwtStrategy,
-    UsersService,
-    // RefreshTokenIdsStorage,
-    JwtRefreshTokenStrategy,
-  ],
+  providers: [AuthService, JwtStrategy, UsersService, JwtRefreshTokenStrategy],
   exports: [AuthService],
   controllers: [AuthController],
 })
