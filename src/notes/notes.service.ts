@@ -21,10 +21,16 @@ export class NotesService {
   public async getSummary(user: User) {
     return this.repository
       .createQueryBuilder('notes')
-      .select(['count(notes.id) AS count', 'MAX(website.name) as name'])
+      .select([
+        'count(notes.id) AS count',
+        'MAX(notes.createdAt) as "createdAt"',
+        'MAX(website.name) as name',
+        'MAX(website.id) as id',
+      ])
       .leftJoin('notes.website', 'website')
       .groupBy('notes.websiteId')
       .where('notes.userId = :userId', { userId: user.id })
+      .orderBy('"createdAt"', 'DESC')
       .getRawMany();
   }
 
